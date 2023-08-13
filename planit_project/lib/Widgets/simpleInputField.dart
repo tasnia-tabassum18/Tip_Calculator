@@ -4,7 +4,8 @@ class simpleInputField extends StatefulWidget {
   final TextEditingController controller;
   final String title;
   final String hinttext;
-  const simpleInputField({super.key, required this.controller, required this.title, required this.hinttext});
+  final IconData? iconData;
+  const simpleInputField({super.key, required this.controller, required this.title, required this.hinttext, this.iconData});
 
   @override
   State<simpleInputField> createState() => _simpleInputFieldState();
@@ -29,7 +30,7 @@ class _simpleInputFieldState extends State<simpleInputField> {
               decoration: InputDecoration(
               hintText: widget.hinttext,
               hintStyle: TextStyle(fontSize: 13,fontWeight: FontWeight.w400,color: textlightBlack),
-              suffixIcon: Icon(Icons.attach_money,color: textBlack,),
+              suffixIcon: widget.iconData != null? Icon(widget.iconData,color: textBlack,): Text(""),
               filled: true,
               fillColor: containerColor,
               border: OutlineInputBorder(
@@ -45,7 +46,7 @@ class _simpleInputFieldState extends State<simpleInputField> {
               borderRadius: BorderRadius.circular(5)
               ),
               ),
-              onChanged: (value){
+              onFieldSubmitted: (value){
               if(value.isEmpty){
               widget.controller.text= "0.00";
               }
@@ -55,14 +56,21 @@ class _simpleInputFieldState extends State<simpleInputField> {
 
               });
               },
-              validator: (value){
+             validator: (value){
                 if(value == null || value.isEmpty){
                   return "Please enter a valid amount";
 
                 }
                 return null;
 
-              },
+          },
+            onSaved: (value){
+                widget.controller.text = value.toString();
+                setState(() {
+
+                });
+            },
+
               ),
     ],
     );
@@ -71,4 +79,3 @@ class _simpleInputFieldState extends State<simpleInputField> {
 
   }
 }
-

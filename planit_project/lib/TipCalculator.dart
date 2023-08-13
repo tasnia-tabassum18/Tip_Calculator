@@ -10,6 +10,8 @@ class TipCalculator extends StatefulWidget {
 
 class _TipCalculatorState extends State<TipCalculator> {
    final totallBillController = TextEditingController();
+   final totaltipController = TextEditingController();
+   final totalpeopleController = TextEditingController();
    final formkey = GlobalKey<FormState>();
    static const Color containerColor = Color(0xFFF5F8FB); //setting color globally
    static const Color textBlack = Color(0xFF232323);
@@ -32,7 +34,7 @@ class _TipCalculatorState extends State<TipCalculator> {
       padding: const EdgeInsets.all(10),
         child: Form(
           key: formkey,
-          child: Column(
+          child: Column( // I can wrap this with scoller widget to fix the error, in that case, spacer should be commented out 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                 Container(
@@ -87,15 +89,76 @@ class _TipCalculatorState extends State<TipCalculator> {
                 const Spacer(),
                 simpleInputField(
                   controller: totallBillController,
-                  title: "Total BIll",
+                  title: "Total Bill",
+                  iconData: Icons.attach_money,
                   hinttext: "Please enter total bill amount"
 
-                )
+                ),
+              simpleInputField(
+                  controller: totaltipController,
+                  title: "Tip Percentage",
+                  iconData: Icons.percent,
+                  hinttext: "Please enter tip percentage"
+
+              ),
+              simpleInputField(
+                  controller: totalpeopleController,
+                  title: "Number of people",
+                  hinttext: "Please enter number of people"
+
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: (){
+                        formkey.currentState!.validate();
+
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top:10),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal:45),
+                        decoration: BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.circular(10),
+
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text("Calculate", style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10,),
+
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top:10),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal:45),
+                      decoration: BoxDecoration(
+                        color: clearButtonColor,
+                        borderRadius: BorderRadius.circular(10),
+
+                      ),
+                      child: const Text("Clear", style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ],
+
+              ),
+
+
+
+
+
 
             ],
 
 
           ),
+
         )),
 
 
